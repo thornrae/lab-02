@@ -1,0 +1,28 @@
+img {
+  height: 150px;
+  margin: 5px;
+}
+
+section {
+  float: left;
+  align-items: center;
+  margin-bottom: 20px; 
+}
+
+h2 {
+  text-align: center;
+}
+
+p{
+  width: 100px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+main {
+  width: 900px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
