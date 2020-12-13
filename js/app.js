@@ -3,27 +3,30 @@
 let hornArray = [];
 
 
-//link json file
+//------------------------------AJAX CALLS------------------------------//
 $.ajax('/data/page-1.json')
   .then( data => {
     data.forEach(hornObject => {
-      console.log(hornObject);
       let newHorn = new Display(hornObject, 'pageOne');
-      newHorn.createHTML();
       newHorn.list();
     });
+    sortByTitle();
+    createElements();
   });
-  
-  $.ajax('/data/page-2.json')
+
+$.ajax('/data/page-2.json')
   .then( data => {
+    sortByTitle();
     data.forEach(hornObject => {
-      console.log(hornObject);
       let newHorn = new Display(hornObject, 'pageTwo');
-      newHorn.createHTML();
       newHorn.list();
     });
+    sortByTitle();
+    createElements();
     $('.pageTwo').hide();
   });
+
+//------------------------------CONSTRUCTOR------------------------------//
 
 function Display (object, page) {
   this.image= object.image_url;
@@ -38,7 +41,6 @@ function Display (object, page) {
 
 Display.prototype.createHTML = function () {
   let photoTemplate = $('#photo-template').html();
-  console.log(this);
   let html = Mustache.render(photoTemplate, this);
   $('main').append(html);
   return html;
@@ -57,9 +59,39 @@ Display.prototype.list = function () {
   });
 };
 
-console.log(hornArray);
+//------------------------------FUNCTIONS------------------------------//
 
-// EVENT LISTENERS
+function sortByTitle() {
+  hornArray.sort(function(a, b){
+    if(a.title > b.title) {
+      return 1;
+    }else if(a.title < b.title){
+      return -1;
+    }
+  });
+}
+
+function sortByHorns() {
+  hornArray.sort(function(a, b){
+    if(a.horns > b.horns) {
+      return 1;
+    }else if(a.horns < b.horns){
+      return -1;
+    }
+  });
+}
+
+function createElements() {
+  hornArray.forEach(obj => {
+    obj.createHTML();
+  });
+}
+
+function clearElements() {
+  $('main').empty();
+}
+
+//------------------------------EVENT LISTENERS------------------------------//
 
 $('#button1').on('click', function() {
   $('.pageOne').show();
@@ -69,4 +101,16 @@ $('#button1').on('click', function() {
 $('#button2').on('click', function() {
   $('.pageOne').hide();
   $('.pageTwo').show();
+});
+
+$('#titleButton').on('click', function() {
+  clearElements();
+  sortByTitle();
+  createElements();
+});
+
+$('#hornButton').on('click', function() {
+  clearElements();
+  sortByHorns();
+  createElements();
 });

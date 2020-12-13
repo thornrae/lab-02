@@ -10,8 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <script id ="photo-template" type ="x-tmpl-mustache">
       <section class="{{keyword}} {{page}}">
-        <h2>{{keyword}}</h2>
-        <img src="{{image}}" alt="{{title}}">
+        <h2>{{title}}</h2>
+        <img src="{{image}}" alt="{{keyword}}">
         <p>{{description}}</p>
       </section>
     </script>
@@ -22,6 +22,8 @@
       <select>
         <option value="default">Filter by Keyword</option>
       </select>
+      <p>Sort by:</p>
+      <button id ="titleButton">Title</button><button id="hornButton">horns</button>
     </header>
     <main>
       <template id="photo-template">
