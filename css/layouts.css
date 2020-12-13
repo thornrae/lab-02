@@ -20,10 +20,28 @@ p{
 }
 
 main {
-  width: 900px;
+  height: 1200px;
+  width: 1200px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  margin: auto;
+  margin-left: 200px;
+  margin-right: 200px;
 }
 
+button {
+  height: 50px;
+  font-size: large;
+}
+
+footer > h2 {
+  float: left;
+  font-size: 30px;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  border: 1px solid black;
+}

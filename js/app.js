@@ -3,27 +3,30 @@
 let hornArray = [];
 
 
-//link json file
+//------------------------------AJAX CALLS------------------------------//
 $.ajax('/data/page-1.json')
   .then( data => {
     data.forEach(hornObject => {
-      console.log(hornObject);
       let newHorn = new Display(hornObject, 'pageOne');
-      newHorn.renderjquery();
       newHorn.list();
     });
+    sortByTitle();
+    createElements();
   });
 
 $.ajax('/data/page-2.json')
   .then( data => {
+    sortByTitle();
     data.forEach(hornObject => {
-      console.log(hornObject);
       let newHorn = new Display(hornObject, 'pageTwo');
-      newHorn.renderjquery();
       newHorn.list();
-      $('.pageTwo').hide();
     });
+    sortByTitle();
+    createElements();
+    $('.pageTwo').hide();
   });
+
+//------------------------------CONSTRUCTOR------------------------------//
 
 function Display (object, page) {
   this.image= object.image_url;
@@ -36,28 +39,19 @@ function Display (object, page) {
   hornArray.push(this);
 }
 
-Display.prototype.renderjquery = function () {
+Display.prototype.createHTML = function () {
   let photoTemplate = $('#photo-template').html();
-  let $newTemplate = $(`<section>${photoTemplate}</section>`);
-  $newTemplate.find('img').attr('src', this.image);
-  $newTemplate.find('img').attr('alt', this.title);
-  $newTemplate.find('h2').text(this.keyword);
-  $newTemplate.addClass(this.keyword);
-  $newTemplate.addClass(this.page);
-  $newTemplate.find('p').text(this.description);
-  $('main').append($newTemplate);
-  console.log($newTemplate);
+  let html = Mustache.render(photoTemplate, this);
+  $('main').append(html);
+  return html;
 };
 
 Display.prototype.list = function () {
   const $keyword = $(`<option value="${this.keyword}">${this.keyword}</option>`);
   $('select').append($keyword);
   $('select').on('change', function (){
-    //grabs value of thing selected, stores in const
     const keyword = $(this).val();
-    //hides all sections
     $('section').hide();
-    //shows any item with the selected keyword as its class
     $(`.${keyword}`).show();
     if(keyword === 'default'){
       $('section').show();
@@ -65,18 +59,58 @@ Display.prototype.list = function () {
   });
 };
 
-console.log(hornArray);
+//------------------------------FUNCTIONS------------------------------//
 
-// EVENT LISTENERS
+function sortByTitle() {
+  hornArray.sort(function(a, b){
+    if(a.title > b.title) {
+      return 1;
+    }else if(a.title < b.title){
+      return -1;
+    }
+  });
+}
+
+function sortByHorns() {
+  hornArray.sort(function(a, b){
+    if(a.horns > b.horns) {
+      return 1;
+    }else if(a.horns < b.horns){
+      return -1;
+    }
+  });
+}
+
+function createElements() {
+  hornArray.forEach(obj => {
+    obj.createHTML();
+  });
+}
+
+function clearElements() {
+  $('main').empty();
+}
+
+//------------------------------EVENT LISTENERS------------------------------//
 
 $('#button1').on('click', function() {
   $('.pageOne').show();
   $('.pageTwo').hide();
-  $('option').attr('value', 'default');
 });
 
 $('#button2').on('click', function() {
   $('.pageOne').hide();
   $('.pageTwo').show();
-  $('option').attr('value', 'default');
+});
+
+$('#titleButton').on('click', function() {
+  clearElements();
+  sortByTitle();
+  createElements();
+});
+
+$('#hornButton').on('click', function() {
+  clearElements();
+  sortByHorns();
+  createElements();
 });
