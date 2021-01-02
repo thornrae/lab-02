@@ -4,7 +4,7 @@ let hornArray = [];
 
 
 //------------------------------AJAX CALLS------------------------------//
-$.ajax('/data/page-1.json')
+$.ajax('data/page-1.json')
   .then( data => {
     data.forEach(hornObject => {
       let newHorn = new Display(hornObject, 'pageOne');
@@ -14,7 +14,7 @@ $.ajax('/data/page-1.json')
     createElements();
   });
 
-$.ajax('/data/page-2.json')
+$.ajax('data/page-2.json')
   .then( data => {
     sortByTitle();
     data.forEach(hornObject => {

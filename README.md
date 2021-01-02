@@ -7,7 +7,7 @@ Time Estimate
 ### Feature #1: Display Images
   - Estimate of time needed to complete: 1 hour
   - Start time: 7:00pm
-  - Finish Time: 8:20pm 
+  - Finish Time: 8:20pm
   - Actual time needed to complete: 1 hour 20 minutes
 
 ### Feature #2: Filter Images
